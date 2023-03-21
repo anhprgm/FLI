@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FakeLocationImage</string>
+    <string name="fake_location_image">Fake Location image</string>
+    <string name="settings">Settings</string>
+</resources>
