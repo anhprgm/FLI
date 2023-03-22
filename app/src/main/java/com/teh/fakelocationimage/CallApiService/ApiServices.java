@@ -1,6 +1,7 @@
 package com.teh.fakelocationimage.CallApiService;
 
 import com.teh.fakelocationimage.Constants.Constants;
+import com.teh.fakelocationimage.FileMange.Image_Post;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -27,7 +28,7 @@ public interface ApiServices {
 
     @Multipart
     @POST("post_img")
-    Call<ResponseBody> uploadImage(@Part MultipartBody.Part image);
+    Call<Image_Post> uploadImage(@Part MultipartBody.Part image);
 
     @GET("cut_img/{id}")
     Call<ResponseBody> cutImage(@Path("id") String id);

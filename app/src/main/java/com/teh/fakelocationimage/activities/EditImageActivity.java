@@ -27,11 +27,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.ortiz.touchview.TouchImageView;
 import com.teh.fakelocationimage.CallApiService.ApiServices;
 import com.teh.fakelocationimage.Constants.Constants;
 import com.teh.fakelocationimage.FileMange.FileUtils;
+import com.teh.fakelocationimage.FileMange.Image_Post;
 import com.teh.fakelocationimage.R;
 import com.teh.fakelocationimage.databinding.ActivityEditImageBinding;
 
@@ -136,28 +139,39 @@ public class EditImageActivity extends AppCompatActivity {
                 return true;
             }
         });
-        binding.foreGround.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return true;
-            }
-
+//        binding.foreGround.setOnTouchImageViewListener(() -> {
+//           float zoom = binding.foreGround.getCurrentZoom();
+//           //make imageView wrapContent
+//            ViewGroup.LayoutParams layoutParams = binding.foreGround.getLayoutParams();
+//            layoutParams.width = (int) (binding.foreGround.getDrawable().getIntrinsicWidth() * zoom);
+//            layoutParams.height = (int) (binding.foreGround.getDrawable().getIntrinsicHeight() * zoom);
+//            binding.foreGround.setLayoutParams(layoutParams);
+//            Log.d("onTouchImageViewListener", "zoom: " + zoom);
+//
+//
+//
+//        });
+        binding.foreGround.setOnTouchListener((v, event) -> {
+            gestureDetector.onTouchEvent(event);
+            return true;
         });
+        binding.resultBtn.setOnClickListener(v -> {
+            combineImage();
+        });
+
     }
 
     private void RemoveBg() {
         File file = new File(path);
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-        Call<ResponseBody> call = api.uploadImage(body);
-        call.enqueue(new retrofit2.Callback<ResponseBody>() {
+        Call< Image_Post> call = api.uploadImage(body);
+        call.enqueue(new Callback<Image_Post>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+            public void onResponse(Call<Image_Post> call, Response<Image_Post> response) {
                 if (response.isSuccessful()) {
-                    Log.d("haaa", "onResponse: " + response.raw());
-
-                    Call<ResponseBody> call2 = api.cutImage("36");
+                    Log.d("haaa", "onResponse: " + response.body().getId());
+                    Call<ResponseBody> call2 = api.cutImage(response.body().getId());
                     call2.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -172,14 +186,17 @@ public class EditImageActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
                             binding.progressBar.setVisibility(View.GONE);
+                            Toast.makeText(EditImageActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                            Log.d("onFailure", "onFailure:" + t.toString());
                         }
                     });
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("haaa", "onFailure: " + t.getMessage());
+            public void onFailure(Call<Image_Post> call, Throwable t) {
+                Toast.makeText(EditImageActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("onFailurexx", "onFailure:" + t.toString());
             }
         });
 
@@ -229,5 +246,24 @@ public class EditImageActivity extends AppCompatActivity {
         } catch (IOException e) {
             // Handle IO exception
         }
+    }
+
+    private void combineImage(){
+        Bitmap bitmap = Bitmap.createBitmap(binding.bgImg.getWidth(), binding.bgImg.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        binding.bgImg.draw(canvas);
+        //get position of imageView
+        float x = binding.foreGround.getX();
+        float y = binding.foreGround.getY();
+        //get size of imageView
+        float width = binding.foreGround.getWidth();
+        float height = binding.foreGround.getHeight();
+        //combine image
+        Bitmap foreGround = ((BitmapDrawable) binding.foreGround.getDrawable()).getBitmap();
+        canvas.drawBitmap(foreGround, x, y, null);
+        binding.foreGround.setImageBitmap(bitmap);
+
+//        binding.foreGround.draw(canvas);
+//        binding.foreGround.setImageBitmap(bitmap);
     }
 }
