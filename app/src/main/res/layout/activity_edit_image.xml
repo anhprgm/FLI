@@ -17,6 +17,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
         <ImageView
+            android:id="@+id/premium_ic"
             android:layout_width="53dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
@@ -41,6 +42,7 @@
         android:weightSum="2"
         android:orientation="horizontal">
         <RelativeLayout
+            android:id="@+id/leftToolBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -60,6 +62,7 @@
                 android:src="@drawable/previous"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rightToolBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -111,17 +114,21 @@
         android:layout_above="@+id/bottom_info"
         android:weightSum="11">
         <FrameLayout
+            android:id="@+id/framImage"
             android:layout_weight="9"
             android:layout_width="match_parent"
             android:layout_height="0dp">
-
+            <com.ortiz.touchview.TouchImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/resul_img"/>
             <com.ortiz.touchview.TouchImageView
                 android:id="@+id/bgImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#305CFF" />
 
-            <com.ortiz.touchview.TouchImageView
+            <com.github.chrisbanes.photoview.PhotoView
                 android:clickable="true"
                 android:longClickable="true"
                 android:layout_width="wrap_content"
@@ -129,6 +136,7 @@
                 android:id="@+id/fore_ground"
                 android:focusable="true" />
         </FrameLayout>
+
         <RelativeLayout android:layout_width="match_parent"
             android:layout_weight="2"
             android:layout_height="0dp"

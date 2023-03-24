@@ -74,5 +74,7 @@ dependencies {
 
     //figure image
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
 
 }
