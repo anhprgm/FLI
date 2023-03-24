@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">FakeLocationImage</string>
-    <string name="fake_location_image">Fake Location image</string>
+    <string name="fake_location_image">Fake Location Image</string>
     <string name="settings">Settings</string>
+    <string name="join_full_experience">Join Full Experience.</string>
+    <string name="access_to_all_features">Access to All features.</string>
+    <string name="new_filters_effects_added_weekly"><![CDATA[New filters & effects added weekly.]]></string>
+    <string name="no_ads_evermore">No ads evermore.</string>
+    <string name="then_7_99_year">Then 7,99 $ / Year</string>
+    <string name="_7_day_free_trial">7-Day Free Trial</string>
+    <string name="_15_99_one_time_purhase">15,99 $ One Time Purhase</string>
 </resources>

@@ -24,8 +24,8 @@
             android:src="@drawable/premium_ic" />
         <ImageView
             android:id="@+id/back_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/back"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -122,9 +122,12 @@
                 android:background="#305CFF" />
 
             <com.ortiz.touchview.TouchImageView
+                android:clickable="true"
+                android:longClickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fore_ground"/>
+                android:id="@+id/fore_ground"
+                android:focusable="true" />
         </FrameLayout>
         <RelativeLayout android:layout_width="match_parent"
             android:layout_weight="2"

@@ -1,16 +1,14 @@
 package com.teh.fakelocationimage.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import com.teh.fakelocationimage.activities.CameraActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.teh.fakelocationimage.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,9 +31,10 @@ public class MainActivity extends AppCompatActivity {
         binding.settings.setOnClickListener(v -> {
             openSettings();
         });
-        binding.newProject.setOnClickListener(v -> {
-            startActivity(new Intent(this, EditImageActivity.class));
-        });
+        binding.newProject.setOnClickListener(v -> startActivity(new Intent(this, EditImageActivity.class)));
+        binding.premiumBtn.setOnClickListener(v -> openPremium());
+
+
     }
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
@@ -58,5 +57,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         //transition right to left
         startActivity(intent);
+    }
+
+
+    private void openPremium() {
+        startActivity(new Intent(MainActivity.this, PremiumActivity.class));
     }
 }
