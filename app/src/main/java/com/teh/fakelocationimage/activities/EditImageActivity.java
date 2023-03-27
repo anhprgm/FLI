@@ -4,11 +4,13 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.ortiz.touchview.TouchImageView;
 import com.teh.fakelocationimage.CallApiService.ApiServices;
 import com.teh.fakelocationimage.Constants.Constants;
@@ -83,6 +86,11 @@ public class EditImageActivity extends AppCompatActivity {
             if (!isResult) {
                 onBackPressed();
             } else {
+                Resources resources = getResources();
+                int id = resources.getIdentifier("add_image", "drawable", getPackageName());
+                binding.addImg.setImageResource(id);
+                id = resources.getIdentifier("bg", "drawable", getPackageName());
+                binding.backGroundImg.setImageResource(id);
                 binding.foreGround.setVisibility(View.GONE);
                 binding.foreGround.setVisibility(View.VISIBLE);
                 binding.bgImg.setVisibility(View.VISIBLE);
@@ -93,13 +101,19 @@ public class EditImageActivity extends AppCompatActivity {
         });
         binding.resultBtn.setOnClickListener(v -> {
             isResult = true;
-            binding.resulImg.setImageBitmap(combineImage(2f));
+            binding.resulImg.setImageBitmap(combineImage());
+
+            Resources resources = getResources();
+            int id = resources.getIdentifier("save", "drawable", getPackageName());
+            binding.addImg.setImageResource(id);
+            id = resources.getIdentifier("share", "drawable", getPackageName());
+            binding.backGroundImg.setImageResource(id);
             binding.foreGround.setVisibility(View.GONE);
             binding.bgImg.setVisibility(View.GONE);
             binding.rightToolBar.setVisibility(View.GONE);
             binding.leftToolBar.setVisibility(View.GONE);
         });
-        binding.premiumIc.setOnClickListener(v -> setZoom(1.5f));
+//        binding.premiumIc.setOnClickListener(v -> setZoom(1.5f));
     }
 
     private void getImage() {
@@ -140,29 +154,20 @@ public class EditImageActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private void moveForeGround() {
         binding.foreGround.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getPointerCount() == 2) {
-                // tính toán khoảng cách giữa 2 điểm
-                float x = motionEvent.getX(0) - motionEvent.getX(1);
-                float y = motionEvent.getY(0) - motionEvent.getY(1);
-                float distance = (float) Math.sqrt(x * x + y * y);
-                //chuyển sang tỉ lệ zoom
-                float scale = distance / 1000;
-                Log.i("haaa", "scale: " + scale);
-            } else {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        startX = view.getX() - motionEvent.getRawX();
-                        startY = view.getY() - motionEvent.getRawY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        view.setX(motionEvent.getRawX() + startX);
-                        view.setY(motionEvent.getRawY() + startY);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                    default:
-                        return false;
-                }
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startX = view.getX() - motionEvent.getRawX();
+                    startY = view.getY() - motionEvent.getRawY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    view.setX(motionEvent.getRawX() + startX);
+                    view.setY(motionEvent.getRawY() + startY);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+                default:
+                    return false;
+
             }
             return true;
         });
@@ -259,15 +264,8 @@ public class EditImageActivity extends AppCompatActivity {
         }
     }
     // combine image
-    private Bitmap combineImage(float zoom) {
-//        Bitmap bitmap = Bitmap.createBitmap(binding.bgImg.getWidth(), binding.bgImg.getHeight(), Bitmap.Config.ARGB_8888);
-        //get max high and width
-        Bitmap bitmapx = ((BitmapDrawable) binding.bgImg.getDrawable()).getBitmap();
-        //giảm chất lượng
-        Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmapx, 1000, 1000, false);
-        int width = 1080;
-        int height = 1920;
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+    private Bitmap combineImage() {
+        Bitmap bitmap = Bitmap.createBitmap(binding.bgImg.getWidth(), binding.bgImg.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         binding.bgImg.draw(canvas);
         //khi zoom xong positon bị thay đổi
@@ -278,13 +276,13 @@ public class EditImageActivity extends AppCompatActivity {
         canvas.drawBitmap(foreGround, x, y, null);
         return bitmap;
     }
-    private void setZoom(float zoom) {
-        Bitmap bitmap = ((BitmapDrawable) binding.foreGround.getDrawable()).getBitmap();
-        Matrix matrix = new Matrix();
-        matrix.postScale(zoom, zoom);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        binding.foreGround.setImageBitmap(resizedBitmap);
-
-
-    }
+//    private void setZoom(float zoom) {
+//        Bitmap bitmap = ((BitmapDrawable) binding.foreGround.getDrawable()).getBitmap();
+//        Matrix matrix = new Matrix();
+//        matrix.postScale(zoom, zoom);
+//        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//        binding.foreGround.setImageBitmap(resizedBitmap);
+//
+//
+//    }
 }

@@ -1,14 +1,13 @@
 package com.teh.fakelocationimage.CallApiService;
 
-import com.teh.fakelocationimage.Constants.Constants;
 import com.teh.fakelocationimage.FileMange.Image_Post;
+import com.teh.fakelocationimage.models.Location;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -52,5 +51,6 @@ public interface ApiServices {
     @GET("changes_img/{id_img}/{id_bg}")
     Call<ResponseBody> getChangesImg();
 
-
+    @GET("listlocation.json")
+    Call<List<Location>> getListLocation();
 }
