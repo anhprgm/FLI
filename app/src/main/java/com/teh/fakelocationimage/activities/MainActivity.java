@@ -24,16 +24,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.openCamera.setOnClickListener(v -> {
-            startActivity(new Intent(this, CameraActivity.class));
-        });
+        binding.openCamera.setOnClickListener(v -> startActivity(new Intent(this, CameraActivity.class)));
         verifyStoragePermissions(this);
-        binding.settings.setOnClickListener(v -> {
-            openSettings();
-        });
+        binding.settings.setOnClickListener(v -> openSettings());
         binding.newProject.setOnClickListener(v -> startActivity(new Intent(this, EditImageActivity.class)));
         binding.premiumBtn.setOnClickListener(v -> openPremium());
-
+        binding.backgroundLocationImage.setOnClickListener(v -> startActivity(new Intent(this, PickLocationImageActivity.class)));
 
     }
     public static void verifyStoragePermissions(Activity activity) {

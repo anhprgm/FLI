@@ -32,6 +32,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true">
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/premiumBtn"
                 android:layout_width="53dp"
                 android:layout_height="24dp"
@@ -39,6 +40,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/premium_ic" />
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/settings"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -62,11 +64,13 @@
             android:gravity="center"
             android:orientation="horizontal">
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:layout_width="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/pick_image_ic"/>
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/open_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,21 +78,22 @@
                 android:src="@drawable/open_camera_ic"
                 />
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/backgroundLocationImage"
                 android:src="@drawable/pick_background"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:layout_weight="2">
+            android:gravity="center_vertical">
             <TextView
                 android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HOT 🔥"
+                android:text="@string/hot"
                 android:textSize="16sp"
                 android:textColor="@color/white"/>
             <RelativeLayout
@@ -107,7 +112,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
                     android:maxLines="1"
                     android:text="@string/app_name"
                     android:textColor="@color/white"
